@@ -1,0 +1,16 @@
+vi factors(int n)  {
+	    int z = 2;
+	    vi result;
+
+	    while (z * z <= n) {
+
+	        if (n % z == 0) {
+	            result.push_back(z);
+	            n /= z;
+	        }
+	        else
+	            z++;
+	    }
+	    if (n > 1)    	result.push_back(n);
+	    return result;
+	}

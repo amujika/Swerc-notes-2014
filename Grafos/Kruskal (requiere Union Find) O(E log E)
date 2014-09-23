@@ -1,0 +1,14 @@
+vector<pair<int, pii> > edgeList;
+//Creamos la edge list con el peso en el primer elemento del pair
+sort(edgeList.begin(), edgeList.end());
+
+int mst_cost = 0;
+UnionFind UF(V);
+
+for (int i = 0; i < edgeList.size(); ++i) {
+	pair<int, pii> front = edgeList[i];
+	if (!UF.isSameSet(front.second.first, front.second.second)) {
+		mst_cost += front.first;
+		UF.unionSet(front.second.first, front.second.second);
+	}
+}
