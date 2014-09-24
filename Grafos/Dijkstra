@@ -1,3 +1,5 @@
+// COMPLEXITY: O((V+E)log V) (V,E < 300K)
+
 vvi graph, weight;
 vi dist;
 

@@ -1,3 +1,5 @@
+// COMPLEXITY: O(E log E)
+
 vector<pair<int, pii> > edgeList;
 //Creamos la edge list con el peso en el primer elemento del pair
 sort(edgeList.begin(), edgeList.end());

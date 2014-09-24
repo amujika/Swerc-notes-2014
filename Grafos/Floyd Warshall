@@ -1,3 +1,5 @@
+// COMPLEXITY: O(V³) (V < 400)
+
 // adj_mat = matriz de adyacencia del grafo
 // adj_mat[i][j] = INF si no hay arista
 // V = cantidad de nodos
