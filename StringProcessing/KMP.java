@@ -15,7 +15,7 @@ public class KMP {
         }
     }
     
-    public List<Integer> search(String s) {
+    public List<Integer> searchAt(String s) {
         final List<Integer> res = new ArrayList<Integer>();
         int i = 0, j = 0; // starting values
         while (i < s.length()) { // search through string s

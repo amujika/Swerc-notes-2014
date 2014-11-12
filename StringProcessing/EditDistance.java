@@ -16,7 +16,7 @@ public class EditDistance {
         this.deleteScore = deleteScore;
     }
     
-    public int getDistance(String a, String b) { // Needleman-Wunsch's algorithm
+    public int getMaxScore(String a, String b) { // Needleman-Wunsch's algorithm
         final int[][] table = new int[a.length()+1][b.length()+1];
         for (int i = 1; i <= a.length(); i++) table[i][0] = i * deleteScore;
         for (int j = 1; j <= b.length(); j++) table[0][j] = j * insertScore;
