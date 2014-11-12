@@ -4,6 +4,7 @@ int x, y, d;
 // Xi = x + (b/d) * n
 // Yi = y - (a/d) * n
 // a*x + b*y = c can be solved iff d divides c, in such cases we multiply both sides with c/d
+//returns x, y and d, given a and b
 void extendedEuclid(int a, int b) {
 	if (b == 0) { x = 1; y = 0; d = a; return; }
 	extendedEuclid(b, a % b);
