@@ -15,7 +15,7 @@ const int INF = 1e9;
 vvi graph, weight;
 vi dist;
 
-void djistra(int source) {
+void dijkstra(int source) {
 	dist = vi(graph.size(), INF);
 	dist[source] = 0;
 	
