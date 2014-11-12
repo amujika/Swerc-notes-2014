@@ -1,4 +1,16 @@
 // COMPLEXITY: O((V+E)log V) (V,E < 300K)
+#include <vector>
+#include <functional>
+#include <queue>
+
+using namespace std;
+
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef pair<int, int> pii;
+
+//Be VERY carefull with this value, use long long if something bigger is needed
+const int INF = 1e9;
 
 vvi graph, weight;
 vi dist;
