@@ -17,7 +17,7 @@ public:
             hare = f(hare);
             lambda++;
         }
-        // 2nd part: Find the position of the first repetition of length λ
+        // 2nd part: Find the position of the first repetition of length lambda
         int mu = 0;
         tortoise = hare = x0;
         for (int i = 0; i < lambda; i++) hare = f(hare);

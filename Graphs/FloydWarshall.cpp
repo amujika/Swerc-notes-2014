@@ -1,4 +1,4 @@
-// COMPLEXITY: O(V³) (V < 400)
+// COMPLEXITY: O(V^3) (V < 400)
 #include <vector>
 
 using namespace std;

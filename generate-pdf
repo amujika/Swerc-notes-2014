@@ -14,9 +14,10 @@ cat<<EOF >$tex_file   ## Print the tex file header
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{backcolour}{rgb}{1,1,1} %% White background
+%% \definecolor{backcolour}{rgb}{0.95,0.95,0.92} # Grey background
 \lstdefinestyle{customasm}{
-  backgroundcolor=\color{backcolour},   
+  backgroundcolor=\color{backcolour},
   commentstyle=\color{codegreen},
   keywordstyle=\color{magenta},
   numberstyle=\tiny\color{codegray},
@@ -35,6 +36,23 @@ cat<<EOF >$tex_file   ## Print the tex file header
 }
 \usepackage[colorlinks=true,linkcolor=blue]{hyperref} 
 \begin{document}
+\lstset{inputencoding=utf8}
+\lstset{extendedchars=true}
+\lstset{
+  literate=%
+  {á}{{\'{a}}}1
+  {é}{{\'{e}}}1
+  {í}{{\'{i}}}1
+  {ó}{{\'{o}}}1
+  {ú}{{\'{u}}}1
+  {Á}{{\'{a}}}1
+  {É}{{\'{e}}}1
+  {Í}{{\'{i}}}1
+  {Ó}{{\'{o}}}1
+  {Ú}{{\'{u}}}1
+  {ñ}{{\v{n}}}1
+  {Ñ}{{\v{N}}}1
+}
 \tableofcontents
 \newpage
 
