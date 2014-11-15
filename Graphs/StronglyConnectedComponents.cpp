@@ -35,7 +35,7 @@ void dfs(int u) {
 			v = S.back(); S.pop_back(); currentSCC[v] = 0;
 			scc[numSCC].push_back(v);
 		} while (u != v);
-		numSCC++; /* Si solo se desea el número de SCCs, esta linea es suficiente y el vector scc sobra */
+		numSCC++; /* Si solo se desea el número de SCCs, el vector scc sobra */
 	}
 }
 
