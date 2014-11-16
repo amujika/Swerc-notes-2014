@@ -1,86 +1,67 @@
-/* ConvexHull emandako puntuak barruan hartzen dituen poligono Konbexu
- * txikiena itzultzen du. Konplexutasuna n log n. */
-#include <cstdio>
-#include <stack>
+#include <vector>
 #include <algorithm>
+#include <math.h>
+
+typedef struct { int x; int y;} point;
+
 using namespace std;
 
-class Point    {
-public:
-    int x, y;
+point pivot; // global variable
+vector<point> polygon, CH;
 
-    // comparison is done first on y coordinate and then on x coordinate
-    bool operator < (Point b) {
-        if (y != b.y)
-            return y < b.y;
-        return x < b.x;
-    }
-};
-
-// Point having the least y coordinate, used for sorting other points
-// according to polar angle about this point
-Point pivot;
-
-// returns -1 if a -> b -> c forms a counter-clockwise turn,
-// +1 for a clockwise turn, 0 if they are collinear
-int ccw(Point a, Point b, Point c) {
-    int area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
-    if (area > 0)
-        return -1;
-    else if (area < 0)
-        return 1;
-    return 0;
+int area2(point a, point b, point c) {
+    return a.x * b.y - a.y * b.x + b.x * c.y - b.y * c.x + c.x * a.y - c.y * a.x;
 }
 
-// returns square of Euclidean distance between two points
-int sqrDist(Point a, Point b)  {
+int dist2(point a, point b) { // function to compute distance between 2 points
     int dx = a.x - b.x, dy = a.y - b.y;
     return dx * dx + dy * dy;
 }
 
-// used for sorting points according to polar order w.r.t the pivot
-bool POLAR_ORDER(Point a, Point b)  {
-    int order = ccw(pivot, a, b);
-    if (order == 0)
-        return sqrDist(pivot, a) < sqrDist(pivot, b);
-    return (order == -1);
+bool angle_cmp(point a, point b) { // important angle-sorting function
+    if (area2(pivot, a, b) == 0) // collinear
+        return dist2(pivot, a) < dist2(pivot, b); // which one closer
+    int d1x = a.x - pivot.x, d1y = a.y - pivot.y;
+    int d2x = b.x - pivot.x, d2y = b.y - pivot.y;
+    return (atan2((double)d1y, (double)d1x) - atan2((double)d2y, (double)d2x)) < 0;
 }
 
-stack<Point> grahamScan(Point *points, int N)    {
-    stack<Point> hull;
-
-    if (N < 3)
-        return hull;
-
-    // find the point having the least y coordinate (pivot),
-    // ties are broken in favor of lower x coordinate
-    int leastY = 0;
-    for (int i = 1; i < N; i++)
-        if (points[i] < points[leastY])
-            leastY = i;
-
-    // swap the pivot with the first point
-    Point temp = points[0];
-    points[0] = points[leastY];
-    points[leastY] = temp;
-
-    // sort the remaining point according to polar order about the pivot
-    pivot = points[0];
-    sort(points + 1, points + N, POLAR_ORDER);
-
-    hull.push(points[0]);
-    hull.push(points[1]);
-    hull.push(points[2]);
-
-    for (int i = 3; i < N; i++) {
-        Point top = hull.top();
-        hull.pop();
-        while (ccw(hull.top(), top, points[i]) != -1)   {
-            top = hull.top();
-            hull.pop();
+vector<point> GrahamScan(vector<point> Polygon) {
+// first, find P0 = point with lowest Y and if tie: rightmost X
+    int i, P0 = 0, N = Polygon.size();
+    for (i = 1; i < N; i++)
+        if (Polygon[i].y < Polygon[P0].y ||
+                (Polygon[i].y == Polygon[P0].y && Polygon[i].x > Polygon[P0].x))
+            P0=i;
+    point temp = Polygon[0]; // swap selected vertex with Polygon[0]
+    Polygon[0] = Polygon[P0];
+    Polygon[P0] = temp;
+// second, sort points by angle w.r.t. P0, skipping Polygon [0]
+    pivot = Polygon[0]; // use this global variable as reference
+    sort(++Polygon.begin(), Polygon.end(), angle_cmp);
+// third, the ccw tests
+    stack<point> S;
+    point prev, now;
+    S.push(Polygon[N - 1]); // put two starting vertices into stack S
+    S.push(Polygon[0]);
+    i = 1; // and start checking the rest
+    while (i < N) { // note: N must be >= 3 for this method to work
+        now = S.top();
+        S.pop();
+        prev = S.top();
+        S.push(now); // trick to get the 2nd item from top of S
+        if (ccw(prev, now, Polygon[i])) { // if these 3 points make a left turn
+            S.push(Polygon[i]); // accept
+            i++;
         }
-        hull.push(top);
-        hull.push(points[i]);
+        else // otherwise
+            S.pop(); // pop this point until we have a left turn
     }
-    return hull;
+    vector<point> ConvexHull;
+    while (!S.empty()) { // from stack back to vector
+        ConvexHull.push_back(S.top());
+        S.pop();
+    }
+    ConvexHull.pop_back(); // the last one is a duplicate of first one
+    return ConvexHull; // return the result
 }
