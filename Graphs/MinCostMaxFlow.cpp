@@ -2,6 +2,7 @@
 // matrix (Edmonds and Karp 1972).  This implementation keeps track of
 // forward and reverse edges separately (so you can set cap[i][j] !=
 // cap[j][i]).  For a regular max flow, set all edge costs to 0.
+// Note that negative cost values are not allowed.
 //  
 // INPUT: 
 //     - graph, constructed using AddEdge()
