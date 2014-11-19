@@ -1,13 +1,25 @@
+// Lowest Common Ancestor with adjacency list
+// Requires an RMQ implementation
+//  Par[i] = parent of node i in the DFS, root is its own parent
+//  E[i] = i-th node visited in the DFS (Euler tour)
+//  L[i] = levels of the i-th node visited in the DFS (Euler tour)
+//  H[i] = index of the first occurrence of node i in E
 #include <vector>
 using namespace std;
 typedef vector<int> vi;
 
-// Requires an RMQ implementation
-class LCA {
+struct LCA {
 	int idx;
 	vector<vi> adj;
 	vi Par, E, L, H;
 	RMQ * rmq;
+    
+    LCA(int N, vector<vi> adjlist) :
+        idx(0), adj(adjlist), Par(N, -1), E(2*N-1), L(2*N-1), H(N, -1) {
+      dfs(0, 0, 0); // We fix the root at index 0
+      rmq = new RMQ(2*N-1, L);
+	}
+    
 	void dfs(int cur, int depth, int parent) {
 		Par[cur] = parent;
 		H[cur] = idx;
@@ -21,17 +33,7 @@ class LCA {
 			}
 		}
 	}
-public:
-	LCA(int N, vector<vi> adjlist) { // (# of nodes, adjacency list)
-	  idx = 0;
-	  adj = adjlist;
-	  Par = vi(N, -1); // Root is its own parent
-	  E = vi(2*N-1); // Nodes visited in an Euler tour
-	  L = vi(2*N-1); // Levels of the nodes visited in the Euler tour
-	  H = vi(N, -1); // H[i] = Index of the first occurrence of node i in E
-	  dfs(0, 0, 0); // We assume that the root is at index 0
-	  rmq = new RMQ(2*N-1, L);
-	}
+	
 	int depth(int u) { return L[H[u]]; } // Depth of u
 	int parent(int u) { return Par[u]; } // Parent of u
 	int find(int u, int v) { // LCA(u, v)
