@@ -13,13 +13,13 @@ struct LCA {
 	vector<vi> adj;
 	vi Par, E, L, H;
 	RMQ * rmq;
-    
-    LCA(int N, vector<vi> adjlist) :
-        idx(0), adj(adjlist), Par(N, -1), E(2*N-1), L(2*N-1), H(N, -1) {
-      dfs(0, 0, 0); // We fix the root at index 0
-      rmq = new RMQ(2*N-1, L);
+
+	LCA(int N, vector<vi> adjlist) :
+	  idx(0), adj(adjlist), Par(N, -1), E(2*N-1), L(2*N-1), H(N, -1) {
+		dfs(0, 0, 0); // We fix the root at index 0
+		rmq = new RMQ(2*N-1, L);
 	}
-    
+
 	void dfs(int cur, int depth, int parent) {
 		Par[cur] = parent;
 		H[cur] = idx;
@@ -33,7 +33,7 @@ struct LCA {
 			}
 		}
 	}
-	
+
 	int depth(int u) { return L[H[u]]; } // Depth of u
 	int parent(int u) { return Par[u]; } // Parent of u
 	int find(int u, int v) { // LCA(u, v)
