@@ -66,6 +66,8 @@ while read i; do   ## Loop through each file
   filename=$(basename "$i")
   dirname=$(dirname "$i")
   extension="${i##*.}"
+  if [[ $filename == "[OLD]"* ]] ; then continue ; fi
+  filename="${filename##*]}"
   language="text"
   if [ "$extension" = "c"    ] ; then language="C"    ; fi
   if [ "$extension" = "cpp"  ] ; then language="C++"  ; fi
